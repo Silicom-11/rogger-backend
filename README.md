@@ -6,8 +6,7 @@ Back-end del sistema web de gestion de encomiendas de **Rogger Express**
 Proyecto integrador del curso **Desarrollo Web Integrado** - UTP, seccion 27524.
 Docente: Mg. Ing. Jose Fernando Matos Vera.
 
-Integrantes: Aquino Carhuas Marc Andersen · Camposano Sandoval Yefrie Antony ·
-Alvarado Arirama Andrey Gianfranco.
+Integrantes: Aquino Carhuas Marc Andreessen - Alvarado Arirama Andrey Gianfranco.
 
 ---
 
