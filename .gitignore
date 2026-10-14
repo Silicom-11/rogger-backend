@@ -1,0 +1,25 @@
+# Compilados
+/target/
+*.class
+*.jar
+*.war
+
+# Credenciales y entorno
+*.p12
+*.jks
+.env
+.env.local
+application-local.properties
+
+# Editores
+.idea/
+*.iml
+.vscode/
+.settings/
+.classpath
+.project
+
+# Sistema
+.DS_Store
+Thumbs.db
+*.log
