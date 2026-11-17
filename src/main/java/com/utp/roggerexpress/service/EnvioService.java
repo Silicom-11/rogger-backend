@@ -15,6 +15,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.security.SecureRandom;
 import java.time.LocalDate;
@@ -402,6 +403,18 @@ public class EnvioService {
                 AlcanceConsulta.global());
     }
 
+    /**
+     * Mueve varias encomiendas de una sola vez.
+     *
+     * Cada encomienda es un documento distinto, de modo que este es el unico
+     * caso del sistema donde una operacion abarca mas de uno. Cuando el
+     * servidor admite transacciones —lo hace en la nube, donde MongoDB corre
+     * como conjunto de replicas— la anotacion agrupa las escrituras; en el
+     * entorno local, donde el gestor de transacciones no se declara, la
+     * anotacion no tiene efecto y cada encomienda se resuelve por separado,
+     * que es justamente lo que el resultado detallado refleja.
+     */
+    @Transactional
     public ResultadoLoteResponse actualizarEstadoLote(List<String> codigos, EstadoEnvio estado,
                                                       String agenciaId, String usuario,
                                                       String observacion, AlcanceConsulta alcance) {

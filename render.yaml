@@ -1,0 +1,36 @@
+# ---------------------------------------------------------------------------
+# Despliegue del back-end en Render.
+#
+# Render lee este archivo al importar el repositorio y configura el servicio
+# solo. Los valores marcados con sync:false no se guardan aquí: se escriben una
+# vez en el panel de Render, de modo que el repositorio no publica credenciales.
+# ---------------------------------------------------------------------------
+services:
+  - type: web
+    name: rogger-express-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    region: oregon
+    plan: free
+    healthCheckPath: /actuator/health
+
+    envVars:
+      - key: SPRING_PROFILES_ACTIVE
+        value: nube
+
+      # Cadena de conexión de MongoDB Atlas. Se escribe en el panel.
+      - key: MONGODB_URI
+        sync: false
+
+      # Clave con la que se firman los tokens. Render puede generarla.
+      - key: ROGGER_JWT_SECRET
+        generateValue: true
+
+      # Origen del front-end publicado en Vercel, para CORS.
+      - key: ROGGER_CORS
+        sync: false
+
+      - key: ROGGER_JWT_MINUTOS
+        value: "60"
+      - key: ROGGER_LIMITE_MINUTO
+        value: "120"
