@@ -161,7 +161,13 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration cfg = new CorsConfiguration();
-        cfg.setAllowedOrigins(Arrays.stream(origenesPermitidos.split(",")).map(String::trim).toList());
+        // El navegador envia el origen sin barra final. Se normaliza para que una
+        // barra de mas en la configuracion no haga fallar la comparacion.
+        cfg.setAllowedOrigins(Arrays.stream(origenesPermitidos.split(","))
+                .map(String::trim)
+                .filter(o -> !o.isEmpty())
+                .map(o -> o.endsWith("/") ? o.substring(0, o.length() - 1) : o)
+                .toList());
         cfg.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         cfg.setAllowedHeaders(List.of("*"));
         cfg.setAllowCredentials(true);
