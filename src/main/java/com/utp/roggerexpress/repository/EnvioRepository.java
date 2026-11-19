@@ -45,7 +45,8 @@ public interface EnvioRepository extends MongoRepository<Envio, String> {
      */
     @Query(value = "{ 'carga.fragil': true, 'estadoActual': { $nin: ['ENTREGADO', 'ANULADO'] } }",
            fields = "{ 'codigoRastreo': 1, 'destinatario.nombres': 1, 'carga.descripcion': 1, "
-                  + "'estadoActual': 1, 'agenciaDestinoId': 1 }",
+                  + "'carga.pesoKg': 1, 'carga.fragil': 1, 'estadoActual': 1, "
+                  + "'agenciaDestinoId': 1 }",
            sort = "{ 'fechaRegistro': -1 }")
     List<Envio> buscarFragilesPendientes();
 

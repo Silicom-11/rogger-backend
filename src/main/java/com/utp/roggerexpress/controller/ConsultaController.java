@@ -1,6 +1,7 @@
 package com.utp.roggerexpress.controller;
 
 import com.utp.roggerexpress.dto.EnvioResponse;
+import com.utp.roggerexpress.dto.EnvioResumenResponse;
 import com.utp.roggerexpress.model.EstadoEnvio;
 import com.utp.roggerexpress.repository.EnvioRepository;
 import io.swagger.v3.oas.annotations.Operation;
@@ -34,11 +35,16 @@ public class ConsultaController {
         this.envioRepository = envioRepository;
     }
 
+    /**
+     * Unica consulta con proyeccion, de modo que responde con un resumen y no
+     * con la encomienda completa: devolver el tipo completo publicaria campos
+     * que la consulta no leyo.
+     */
     @GetMapping("/fragiles")
     @Operation(summary = "Carga fragil todavia en circulacion, con proyeccion de campos")
-    public ResponseEntity<List<EnvioResponse>> fragiles() {
+    public ResponseEntity<List<EnvioResumenResponse>> fragiles() {
         return ResponseEntity.ok(envioRepository.buscarFragilesPendientes()
-                .stream().map(EnvioResponse::from).toList());
+                .stream().map(EnvioResumenResponse::from).toList());
     }
 
     @GetMapping("/por-importe")
