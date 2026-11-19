@@ -18,12 +18,18 @@ COPY src ./src
 RUN mvn -B clean package -DskipTests
 
 # ---------------------------------------------------------------------------
+# Runtime sobre Ubuntu (glibc), no sobre Alpine.
+#
+# La variante Alpine usa musl libc, cuya implementacion de TLS falla el
+# handshake contra MongoDB Atlas: el servidor corta la conexion con
+# "Received fatal alert: internal_error". Con glibc la negociacion funciona.
+# ---------------------------------------------------------------------------
 
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
 # La aplicacion no corre como root.
-RUN addgroup -S rogger && adduser -S rogger -G rogger
+RUN groupadd --system rogger && useradd --system --gid rogger rogger
 COPY --from=construccion /build/target/*.jar app.jar
 RUN chown rogger:rogger app.jar
 USER rogger
